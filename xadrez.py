@@ -21,7 +21,7 @@ def recursivo(x, y, matriz, lista):
 
  # caso passe as verificações, atribuir na matriz
  matriz[x][y] = len(lista)-1
- lista.add(x*10 + y)
+ lista.append(x*10 + y)
 
  resp1 = recursivo(x-1,y+2,matriz,lista)
  resp2 = recursivo(x-1,y-2,matriz,lista)
@@ -49,6 +49,12 @@ def recursivo(x, y, matriz, lista):
  if resp8 != 0:
   return resp8
 
- return lista
+ return 0
 
-resultado = recursivo(0,0, m,l)
+
+primeirox = 0
+primeiroy = 0
+m[primeirox][primeiroy] = 0
+l.append(primeirox * 10 + primeiroy)
+resultado = recursivo(primeirox,primeiroy, m,l)
+print (resultado)
