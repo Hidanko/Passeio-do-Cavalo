@@ -79,15 +79,15 @@ def longest(listas):
     maior_lista = []
     print ('num_listas:' + str(len(listas)))
     for lista in listas:
-        if len(lista) > tamanho_lista:
+        if len(lista) > tamanho_lista and len(lista) < 64:
             maior_lista = lista
             tamanho_lista = len(lista)
 
     return maior_lista
 
 
-primeirox = 0
-primeiroy = 0
+primeirox = 5
+primeiroy = 5
 m[primeirox][primeiroy] = 0
 # l.append(primeirox * 10 + primeiroy)
 try:
