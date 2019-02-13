@@ -1,3 +1,5 @@
+import traceback
+
 m = [[-1, -1, -1, -1, -1, -1, -1, -1],
      [-1, -1, -1, -1, -1, -1, -1, -1],
      [-1, -1, -1, -1, -1, -1, -1, -1],
@@ -8,72 +10,90 @@ m = [[-1, -1, -1, -1, -1, -1, -1, -1],
      [-1, -1, -1, -1, -1, -1, -1, -1]]
 l = []
 
+
 # caso retorne 0 = sem saída
 def recursivo(x, y, matriz, lista):
+    if len(lista) == 33:
+        print('a')
+
     if len(lista) == 64:
-        return lista
+        return lista.copy()
 
     # caso passe as verificações, atribuir na matriz
-    matriz[x][y] = len(lista) - 1
     lista.append(x * 10 + y)
+    matriz[x][y] = len(lista)
+
+    lista_resposta = []
+    lista_len = len(lista)
     if x - 1 >= 0 and y + 2 <= 7:
         if matriz[x - 1][y + 2] == -1:
-            matriz[x - 1][y + 2] = len(lista)
-            resp1 = recursivo(x - 1, y + 2, matriz, lista)
-            if resp1 != 0:
-                return resp1
+            m1 = matriz.copy()
+            m1[x - 1][y + 2] = lista_len
+            lista_resposta.append(recursivo(x - 1, y + 2, m1, lista.copy()))
     if x - 1 >= 0 and y - 2 >= 0:
         if matriz[x - 1][y - 2] == -1:
-            matriz[x - 1][y - 2] = len(lista)
-            resp2 = recursivo(x - 1, y - 2, matriz, lista)
-            if resp2 != 0:
-                return resp2
+            m2 = matriz.copy()
+            m2[x - 1][y - 2] = lista_len
+            lista_resposta.append(recursivo(x - 1, y - 2, m2, lista.copy()))
     if x + 1 <= 7 and y + 2 <= 7:
         if matriz[x + 1][y + 2] == -1:
-            matriz[x + 1][y + 2] = len(lista)
-            resp3 = recursivo(x + 1, y + 2, matriz, lista)
-            if resp3 != 0:
-                return resp3
+            m3 = matriz.copy()
+            m3[x + 1][y + 2] = lista_len
+            lista_resposta.append(recursivo(x + 1, y + 2, m3, lista.copy()))
     if x + 1 <= 7 and y - 2 >= 0:
         if matriz[x + 1][y - 2] == -1:
-            matriz[x + 1][y - 2] = len(lista)
-            resp4 = recursivo(x + 1, y - 2, matriz, lista)
-            if resp4 != 0:
-                return resp4
+            m4 = matriz.copy()
+            m4[x + 1][y - 2] = lista_len
+            lista_resposta.append(recursivo(x + 1, y - 2, m4, lista.copy()))
     if x - 2 >= 0 and y - 1 >= 0:
-        if matriz[x - 2][y - 2] == -1:
-            matriz[x - 2][y - 2] = len(lista)
-            resp5 = recursivo(x - 2, y - 1, matriz, lista)
-            if resp5 != 0:
-                return resp5
+        if matriz[x - 2][y - 1] == -1:
+            m5 = matriz.copy()
+            m5[x - 2][y - 1] = lista_len
+            lista_resposta.append(recursivo(x - 2, y - 1, m5, lista.copy()))
     if x + 2 <= 7 and y - 1 >= 0:
         if matriz[x + 2][y - 1] == -1:
-            matriz[x + 2][y - 1] = len(lista)
-            resp6 = recursivo(x + 2, y - 1, matriz, lista)
-            if resp6 != 0:
-                return resp6
+            m6 = matriz.copy()
+            m6[x + 2][y - 1] = lista_len
+            lista_resposta.append(recursivo(x + 2, y - 1, m6, lista.copy()))
     if x - 2 >= 0 and y + 1 <= 7:
         if matriz[x - 2][y + 1] == -1:
-            matriz[x - 2][y + 1] = len(lista)
-            resp7 = recursivo(x - 2, y + 1, matriz, lista)
-            if resp7 != 0:
-                return resp7
+            m7 = matriz.copy()
+            m7[x - 2][y + 1] = lista_len
+            lista_resposta.append(recursivo(x - 2, y + 1, m7, lista.copy()))
     if x + 2 <= 7 and y + 1 <= 7:
         if matriz[x + 2][y + 1] == -1:
-            matriz[x + 2][y + 1] = len(lista)
-            resp8 = recursivo(x + 2, y + 1, matriz, lista)
-            if resp8 != 0:
-                return resp8
+            m8 = matriz.copy()
+            m8[x + 2][y + 1] = lista_len
+            lista_resposta.append(recursivo(x + 2, y + 1, m8, lista.copy()))
 
-    return lista
+    maior = longest(lista_resposta)
+    print(maior)
+    print('\n'.join([''.join(['{:4}'.format(item) for item in row])
+                     for row in matriz]))
+    print('\n\n')
+    return maior
+
+
+def longest(listas):
+    tamanho_lista = -1
+    maior_lista = []
+    print ('num_listas:' + str(len(listas)))
+    for lista in listas:
+        if len(lista) > tamanho_lista:
+            maior_lista = lista
+            tamanho_lista = len(lista)
+
+    return maior_lista
 
 
 primeirox = 0
 primeiroy = 0
 m[primeirox][primeiroy] = 0
-l.append(primeirox * 10 + primeiroy)
+# l.append(primeirox * 10 + primeiroy)
 try:
     resultado = recursivo(primeirox, primeiroy, m, l)
+    print('resultado:\n')
     print(resultado)
 except Exception as exc:
+    traceback.print_exc()
     print(exc)
